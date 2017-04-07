@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D2CB2941E98023D00307D4A /* BayPhotosFetchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2CB2931E98023D00307D4A /* BayPhotosFetchHelper.m */; };
 		E8D2A0F11E979521008C6095 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A0F01E979521008C6095 /* main.m */; };
 		E8D2A0F41E979521008C6095 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A0F31E979521008C6095 /* AppDelegate.m */; };
-		E8D2A0F71E979521008C6095 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A0F61E979521008C6095 /* ViewController.m */; };
 		E8D2A0FA1E979521008C6095 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0F81E979521008C6095 /* Main.storyboard */; };
 		E8D2A0FC1E979521008C6095 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0FB1E979521008C6095 /* Assets.xcassets */; };
 		E8D2A0FF1E979521008C6095 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0FD1E979521008C6095 /* LaunchScreen.storyboard */; };
@@ -19,12 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D2CB2921E98023D00307D4A /* BayPhotosFetchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosFetchHelper.h; sourceTree = "<group>"; };
+		6D2CB2931E98023D00307D4A /* BayPhotosFetchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosFetchHelper.m; sourceTree = "<group>"; };
 		E8D2A0EC1E979521008C6095 /* Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8D2A0F01E979521008C6095 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E8D2A0F21E979521008C6095 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E8D2A0F31E979521008C6095 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E8D2A0F51E979521008C6095 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E8D2A0F61E979521008C6095 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E8D2A0F91E979521008C6095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E8D2A0FB1E979521008C6095 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8D2A0FE1E979521008C6095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,10 +69,10 @@
 			children = (
 				E8D2A0F21E979521008C6095 /* AppDelegate.h */,
 				E8D2A0F31E979521008C6095 /* AppDelegate.m */,
-				E8D2A0F51E979521008C6095 /* ViewController.h */,
-				E8D2A0F61E979521008C6095 /* ViewController.m */,
 				E8D2A1061E979559008C6095 /* BayPhotosViewController.h */,
 				E8D2A1071E979559008C6095 /* BayPhotosViewController.m */,
+				6D2CB2921E98023D00307D4A /* BayPhotosFetchHelper.h */,
+				6D2CB2931E98023D00307D4A /* BayPhotosFetchHelper.m */,
 				E8D2A1091E979697008C6095 /* BayPhotosReusableView.h */,
 				E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */,
 				E8D2A10C1E97987C008C6095 /* BayPhotosCell.h */,
@@ -168,9 +168,9 @@
 			files = (
 				E8D2A10B1E979697008C6095 /* BayPhotosReusableView.m in Sources */,
 				E8D2A1081E979559008C6095 /* BayPhotosViewController.m in Sources */,
-				E8D2A0F71E979521008C6095 /* ViewController.m in Sources */,
 				E8D2A0F41E979521008C6095 /* AppDelegate.m in Sources */,
 				E8D2A0F11E979521008C6095 /* main.m in Sources */,
+				6D2CB2941E98023D00307D4A /* BayPhotosFetchHelper.m in Sources */,
 				E8D2A10E1E97987C008C6095 /* BayPhotosCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,6 +332,7 @@
 				E8D2A1051E979521008C6095 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
