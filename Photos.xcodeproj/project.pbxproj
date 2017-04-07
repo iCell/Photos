@@ -13,6 +13,9 @@
 		E8D2A0FA1E979521008C6095 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0F81E979521008C6095 /* Main.storyboard */; };
 		E8D2A0FC1E979521008C6095 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0FB1E979521008C6095 /* Assets.xcassets */; };
 		E8D2A0FF1E979521008C6095 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0FD1E979521008C6095 /* LaunchScreen.storyboard */; };
+		E8D2A1081E979559008C6095 /* BayPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A1071E979559008C6095 /* BayPhotosViewController.m */; };
+		E8D2A10B1E979697008C6095 /* BayPhotosReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */; };
+		E8D2A10E1E97987C008C6095 /* BayPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A10D1E97987C008C6095 /* BayPhotosCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,12 @@
 		E8D2A0FB1E979521008C6095 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8D2A0FE1E979521008C6095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E8D2A1001E979521008C6095 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8D2A1061E979559008C6095 /* BayPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosViewController.h; sourceTree = "<group>"; };
+		E8D2A1071E979559008C6095 /* BayPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosViewController.m; sourceTree = "<group>"; };
+		E8D2A1091E979697008C6095 /* BayPhotosReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosReusableView.h; sourceTree = "<group>"; };
+		E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosReusableView.m; sourceTree = "<group>"; };
+		E8D2A10C1E97987C008C6095 /* BayPhotosCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosCell.h; sourceTree = "<group>"; };
+		E8D2A10D1E97987C008C6095 /* BayPhotosCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +71,12 @@
 				E8D2A0F31E979521008C6095 /* AppDelegate.m */,
 				E8D2A0F51E979521008C6095 /* ViewController.h */,
 				E8D2A0F61E979521008C6095 /* ViewController.m */,
+				E8D2A1061E979559008C6095 /* BayPhotosViewController.h */,
+				E8D2A1071E979559008C6095 /* BayPhotosViewController.m */,
+				E8D2A1091E979697008C6095 /* BayPhotosReusableView.h */,
+				E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */,
+				E8D2A10C1E97987C008C6095 /* BayPhotosCell.h */,
+				E8D2A10D1E97987C008C6095 /* BayPhotosCell.m */,
 				E8D2A0F81E979521008C6095 /* Main.storyboard */,
 				E8D2A0FB1E979521008C6095 /* Assets.xcassets */,
 				E8D2A0FD1E979521008C6095 /* LaunchScreen.storyboard */,
@@ -151,9 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8D2A10B1E979697008C6095 /* BayPhotosReusableView.m in Sources */,
+				E8D2A1081E979559008C6095 /* BayPhotosViewController.m in Sources */,
 				E8D2A0F71E979521008C6095 /* ViewController.m in Sources */,
 				E8D2A0F41E979521008C6095 /* AppDelegate.m in Sources */,
 				E8D2A0F11E979521008C6095 /* main.m in Sources */,
+				E8D2A10E1E97987C008C6095 /* BayPhotosCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
