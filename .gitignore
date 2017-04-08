@@ -1,3 +1,6 @@
-/Photos.xcodeproj/xcuserdata/*
 *.xcuserstate
+*.pbxuser
+*.ipa
+xcuserdata
+
 .DS_Store

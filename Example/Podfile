@@ -1,0 +1,5 @@
+use_frameworks!
+
+target 'Photos_Example' do
+  pod 'Photos', :path => '../'
+end

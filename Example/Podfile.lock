@@ -1,0 +1,16 @@
+PODS:
+  - Photos (0.1.0)
+
+DEPENDENCIES:
+  - Photos (from `../`)
+
+EXTERNAL SOURCES:
+  Photos:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Photos: d77da5e32bdf5a9d2ea7c6bbb8e4f5d42829ff59
+
+PODFILE CHECKSUM: dd0cec0688417114191523241eb444c9937d63d7
+
+COCOAPODS: 1.2.0
