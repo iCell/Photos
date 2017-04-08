@@ -8,7 +8,40 @@
 
 #import "BayPhotosCell.h"
 
-CGFloat const kPhotosCellBorderWidth = 2;
+CGFloat const kPhotosCellBorderWidth = 1;
+
+@interface BayCameraCell()
+
+@property (strong, nonatomic) UIImageView *imageView;
+
+@end
+
+@implementation BayCameraCell
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self.contentView addSubview:self.imageView];
+        
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[imageview]|" options:0 metrics:nil views:@{@"imageview": self.imageView}]];
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[imageview]|" options:0 metrics:nil views:@{@"imageview": self.imageView}]];
+    }
+    return self;
+}
+
+- (UIImageView *)imageView {
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [_imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [_imageView setContentMode:UIViewContentModeCenter];
+        [_imageView setClipsToBounds:YES];
+        [_imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+        [_imageView.layer setBorderWidth:kPhotosCellBorderWidth];
+        [_imageView setImage:[UIImage imageNamed:@"icon_camera"]];
+    }
+    return _imageView;
+}
+
+@end
 
 @interface BayPhotosCell()
 

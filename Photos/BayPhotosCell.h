@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@interface BayCameraCell : UICollectionViewCell
+
+@end
+
 @interface BayPhotosCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImage *thumbnail;

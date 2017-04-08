@@ -7,6 +7,7 @@
 //
 
 #import "BayPhotosViewController.h"
+#import "BayImageCropViewController.h"
 
 #import "BayPhotosFetchHelper.h"
 
@@ -15,18 +16,18 @@
 
 @import Photos;
 
+static NSString * const kCameraCellIdentifier = @"kCameraCellIdentifier";
 static NSString * const kPhotosCellIdentifier = @"kPhotosCellIdentifier";
 static NSString * const kPhotosResuableIdentifier = @"kPhotosResuableIdentifier";
 
 CGFloat const kCellInset = 8;
 
-@interface BayPhotosViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BayPhotosFetcherHelperDelegate>
+@interface BayPhotosViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BayPhotosFetcherHelperDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) BayPhotosFetchHelper *fetchHelper;
 
 @property (strong, nonatomic) PHFetchResult<PHAsset *> *fetchResult;
-@property (strong, nonatomic) PHCachingImageManager *imageManager;
 
 @end
 
@@ -55,17 +56,24 @@ CGFloat const kCellInset = 8;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.fetchResult.count;
+    return self.fetchResult.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BayPhotosCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotosCellIdentifier forIndexPath:indexPath];
-    PHAsset *asset = self.fetchResult[indexPath.row];
-    CGFloat scale = [[UIScreen mainScreen] scale];
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CGSizeMake(CGRectGetWidth(cell.frame) * scale, CGRectGetHeight(cell.frame) * scale) contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        cell.thumbnail = result;
-    }];
-    return cell;
+    if (indexPath.row == 0) {
+        BayCameraCell *cameraCell = [collectionView dequeueReusableCellWithReuseIdentifier:kCameraCellIdentifier forIndexPath:indexPath];
+        return cameraCell;
+    }
+
+    BayPhotosCell *photosCell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotosCellIdentifier forIndexPath:indexPath];
+    if (indexPath.row != 0) {
+        PHAsset *asset = self.fetchResult[indexPath.row - 1];
+        CGFloat scale = [[UIScreen mainScreen] scale];
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CGSizeMake(CGRectGetWidth(photosCell.frame) * scale, CGRectGetHeight(photosCell.frame) * scale) contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            photosCell.thumbnail = result;
+        }];
+    }
+    return photosCell;
 }
 
 #pragma mark - UICollectionViewDelegateLayout
@@ -86,6 +94,49 @@ CGFloat const kCellInset = 8;
     return UIEdgeInsetsMake(0, kCellInset, 0, kCellInset);
 }
 
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        [self openCamera];
+    } else {
+        PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+        [option setDeliveryMode:PHImageRequestOptionsDeliveryModeHighQualityFormat];
+        [option setNetworkAccessAllowed:YES];
+        PHAsset *asset = self.fetchResult[indexPath.row - 1];
+        CGFloat scale = [UIScreen mainScreen].scale;
+        CGSize targetSize = CGSizeMake(scale * CGRectGetWidth([UIScreen mainScreen].bounds), scale * CGRectGetHeight([UIScreen mainScreen].bounds));
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                BayImageCropViewController *cropViewController = [[BayImageCropViewController alloc] initWithImage:result];
+                [self.navigationController pushViewController:cropViewController animated:YES];
+            });
+        }];
+    }
+}
+
+#pragma mark - camera / UIImagePickerControllerDelegate
+- (void)openCamera {
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        return;
+    }
+    UIImagePickerController *cameraController = [[UIImagePickerController alloc] init];
+    [cameraController setSourceType:UIImagePickerControllerSourceTypeCamera];
+    [cameraController setDelegate:self];
+    [self presentViewController:cameraController animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *photo = info[UIImagePickerControllerOriginalImage];
+    if (photo) {
+        UIImageWriteToSavedPhotosAlbum(photo, nil, nil, nil);
+    }
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - BayPhotosFetcherHelperDelegate
 - (void)didFetchAllPhotos:(PHFetchResult<PHAsset *> *)allPhotos {
     self.fetchResult = allPhotos;
@@ -99,6 +150,7 @@ CGFloat const kCellInset = 8;
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
         [_collectionView setAlwaysBounceVertical:YES];
         [_collectionView setBackgroundColor:self.view.backgroundColor];
+        [_collectionView registerClass:[BayCameraCell class] forCellWithReuseIdentifier:kCameraCellIdentifier];
         [_collectionView registerClass:[BayPhotosCell class] forCellWithReuseIdentifier:kPhotosCellIdentifier];
         [_collectionView registerClass:[BayPhotosReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPhotosResuableIdentifier];
         [_collectionView setDataSource:self];
@@ -113,13 +165,6 @@ CGFloat const kCellInset = 8;
         [_fetchHelper setDelegate:self];
     }
     return _fetchHelper;
-}
-
-- (PHCachingImageManager *)imageManager {
-    if (!_imageManager) {
-        _imageManager = [[PHCachingImageManager alloc] init];
-    }
-    return _imageManager;
 }
 
 @end

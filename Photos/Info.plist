@@ -24,6 +24,8 @@
 	<string>LaunchScreen</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Need Access Photos Library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Need Access Camera</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

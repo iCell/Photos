@@ -20,7 +20,7 @@
 
 - (void)registerCollectionsChange {
     PHFetchOptions *fetchOption = [[PHFetchOptions alloc] init];
-    [fetchOption setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]]];
+    [fetchOption setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO]]];
     
     self.allPhotos = [PHAsset fetchAssetsWithOptions:fetchOption];
     
