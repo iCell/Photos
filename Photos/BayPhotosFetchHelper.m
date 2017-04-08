@@ -8,8 +8,6 @@
 
 #import "BayPhotosFetchHelper.h"
 
-@import Photos;
-
 @interface BayPhotosFetchHelper () <PHPhotoLibraryChangeObserver>
 
 @property (strong, nonatomic) PHFetchResult<PHAsset *> *allPhotos;
@@ -35,6 +33,13 @@
 
 - (void)unregisterCollectionsChange {
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+}
+
+- (void)setAllPhotos:(PHFetchResult<PHAsset *> *)allPhotos {
+    _allPhotos = allPhotos;
+    if ([self.delegate respondsToSelector:@selector(didFetchAllPhotos:)]) {
+        [self.delegate didFetchAllPhotos:self.allPhotos];
+    }
 }
 
 #pragma mark - PHPhotoLibraryChangeObserver

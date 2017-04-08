@@ -8,6 +8,8 @@
 
 #import "BayPhotosViewController.h"
 
+#import "BayPhotosFetchHelper.h"
+
 #import "BayPhotosReusableView.h"
 #import "BayPhotosCell.h"
 
@@ -18,18 +20,27 @@ static NSString * const kPhotosResuableIdentifier = @"kPhotosResuableIdentifier"
 
 CGFloat const kCellInset = 8;
 
-@interface BayPhotosViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface BayPhotosViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BayPhotosFetcherHelperDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) BayPhotosFetchHelper *fetchHelper;
+
+@property (strong, nonatomic) PHFetchResult<PHAsset *> *fetchResult;
+@property (strong, nonatomic) PHCachingImageManager *imageManager;
 
 @end
 
 @implementation BayPhotosViewController
 
+- (void)dealloc {
+    [self.fetchHelper unregisterCollectionsChange];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self configureSubviews];
+    [self.fetchHelper registerCollectionsChange];
 }
 
 - (void)configureSubviews {
@@ -44,12 +55,16 @@ CGFloat const kCellInset = 8;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return self.fetchResult.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BayPhotosCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotosCellIdentifier forIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor redColor]];
+    PHAsset *asset = self.fetchResult[indexPath.row];
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CGSizeMake(CGRectGetWidth(cell.frame) * scale, CGRectGetHeight(cell.frame) * scale) contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        cell.thumbnail = result;
+    }];
     return cell;
 }
 
@@ -71,6 +86,12 @@ CGFloat const kCellInset = 8;
     return UIEdgeInsetsMake(0, kCellInset, 0, kCellInset);
 }
 
+#pragma mark - BayPhotosFetcherHelperDelegate
+- (void)didFetchAllPhotos:(PHFetchResult<PHAsset *> *)allPhotos {
+    self.fetchResult = allPhotos;
+    [self.collectionView reloadData];
+}
+
 #pragma mark - getter
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
@@ -84,6 +105,21 @@ CGFloat const kCellInset = 8;
         [_collectionView setDelegate:self];
     }
     return _collectionView;
+}
+
+- (BayPhotosFetchHelper *)fetchHelper {
+    if (!_fetchHelper) {
+        _fetchHelper = [[BayPhotosFetchHelper alloc] init];
+        [_fetchHelper setDelegate:self];
+    }
+    return _fetchHelper;
+}
+
+- (PHCachingImageManager *)imageManager {
+    if (!_imageManager) {
+        _imageManager = [[PHCachingImageManager alloc] init];
+    }
+    return _imageManager;
 }
 
 @end

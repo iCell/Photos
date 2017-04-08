@@ -8,12 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
+@import Photos;
+
 typedef NS_ENUM(NSInteger, BayPhotoCollectionSection) {
     BayPhotoCollectionSectionAllPhoto,
     BayPhotoCollectionSectionSmartAlbum,
     BayPhotoCollectionSectionUserCollections
 };
 
+@protocol BayPhotosFetcherHelperDelegate;
+
 @interface BayPhotosFetchHelper : NSObject
+
+@property (weak, nonatomic) id<BayPhotosFetcherHelperDelegate> delegate;
+
+- (void)registerCollectionsChange;
+- (void)unregisterCollectionsChange;
+
+@end
+
+@protocol BayPhotosFetcherHelperDelegate <NSObject>
+
+- (void)didFetchAllPhotos:(PHFetchResult<PHAsset *> *)allPhotos;
 
 @end
