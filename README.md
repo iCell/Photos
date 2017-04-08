@@ -17,12 +17,12 @@ Photos is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Photos"
+<!-- pod "Photos" -->
 ```
 
 ## Author
 
-icell.vip@gmail.com, icell.vip@gmail.com
+iCell => icell.vip@gmail.com
 
 ## License
 
