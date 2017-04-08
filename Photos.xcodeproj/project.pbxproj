@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		6D2CB2941E98023D00307D4A /* BayPhotosFetchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2CB2931E98023D00307D4A /* BayPhotosFetchHelper.m */; };
 		6D2CB2971E98EB3A00307D4A /* BayImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2CB2961E98EB3A00307D4A /* BayImageCropViewController.m */; };
+		6D2CB29A1E993F9C00307D4A /* UIImage+BayImageRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D2CB2991E993F9C00307D4A /* UIImage+BayImageRotate.m */; };
 		E8D2A0F11E979521008C6095 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A0F01E979521008C6095 /* main.m */; };
 		E8D2A0F41E979521008C6095 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A0F31E979521008C6095 /* AppDelegate.m */; };
 		E8D2A0FA1E979521008C6095 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0F81E979521008C6095 /* Main.storyboard */; };
 		E8D2A0FC1E979521008C6095 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0FB1E979521008C6095 /* Assets.xcassets */; };
 		E8D2A0FF1E979521008C6095 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8D2A0FD1E979521008C6095 /* LaunchScreen.storyboard */; };
 		E8D2A1081E979559008C6095 /* BayPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A1071E979559008C6095 /* BayPhotosViewController.m */; };
-		E8D2A10B1E979697008C6095 /* BayPhotosReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */; };
 		E8D2A10E1E97987C008C6095 /* BayPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D2A10D1E97987C008C6095 /* BayPhotosCell.m */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +24,8 @@
 		6D2CB2931E98023D00307D4A /* BayPhotosFetchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosFetchHelper.m; sourceTree = "<group>"; };
 		6D2CB2951E98EB3A00307D4A /* BayImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayImageCropViewController.h; sourceTree = "<group>"; };
 		6D2CB2961E98EB3A00307D4A /* BayImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayImageCropViewController.m; sourceTree = "<group>"; };
+		6D2CB2981E993F9B00307D4A /* UIImage+BayImageRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BayImageRotate.h"; sourceTree = "<group>"; };
+		6D2CB2991E993F9C00307D4A /* UIImage+BayImageRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BayImageRotate.m"; sourceTree = "<group>"; };
 		E8D2A0EC1E979521008C6095 /* Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8D2A0F01E979521008C6095 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E8D2A0F21E979521008C6095 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -34,8 +36,6 @@
 		E8D2A1001E979521008C6095 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8D2A1061E979559008C6095 /* BayPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosViewController.h; sourceTree = "<group>"; };
 		E8D2A1071E979559008C6095 /* BayPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosViewController.m; sourceTree = "<group>"; };
-		E8D2A1091E979697008C6095 /* BayPhotosReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosReusableView.h; sourceTree = "<group>"; };
-		E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosReusableView.m; sourceTree = "<group>"; };
 		E8D2A10C1E97987C008C6095 /* BayPhotosCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayPhotosCell.h; sourceTree = "<group>"; };
 		E8D2A10D1E97987C008C6095 /* BayPhotosCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayPhotosCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,10 +76,10 @@
 				E8D2A1071E979559008C6095 /* BayPhotosViewController.m */,
 				6D2CB2951E98EB3A00307D4A /* BayImageCropViewController.h */,
 				6D2CB2961E98EB3A00307D4A /* BayImageCropViewController.m */,
+				6D2CB2981E993F9B00307D4A /* UIImage+BayImageRotate.h */,
+				6D2CB2991E993F9C00307D4A /* UIImage+BayImageRotate.m */,
 				6D2CB2921E98023D00307D4A /* BayPhotosFetchHelper.h */,
 				6D2CB2931E98023D00307D4A /* BayPhotosFetchHelper.m */,
-				E8D2A1091E979697008C6095 /* BayPhotosReusableView.h */,
-				E8D2A10A1E979697008C6095 /* BayPhotosReusableView.m */,
 				E8D2A10C1E97987C008C6095 /* BayPhotosCell.h */,
 				E8D2A10D1E97987C008C6095 /* BayPhotosCell.m */,
 				E8D2A0F81E979521008C6095 /* Main.storyboard */,
@@ -171,7 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8D2A10B1E979697008C6095 /* BayPhotosReusableView.m in Sources */,
+				6D2CB29A1E993F9C00307D4A /* UIImage+BayImageRotate.m in Sources */,
 				6D2CB2971E98EB3A00307D4A /* BayImageCropViewController.m in Sources */,
 				E8D2A1081E979559008C6095 /* BayPhotosViewController.m in Sources */,
 				E8D2A0F41E979521008C6095 /* AppDelegate.m in Sources */,

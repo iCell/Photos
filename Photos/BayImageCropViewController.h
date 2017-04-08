@@ -8,8 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BayImageCropViewControllerDelegate;
+
 @interface BayImageCropViewController : UIViewController
 
-- (instancetype)initWithImage:(UIImage *)image;
+@property (weak, nonatomic, nullable) id<BayImageCropViewControllerDelegate> delegate;
+
+/*
+ * ratio = image.height / image.width
+ */
+- (nonnull instancetype)initWithImage:(nullable UIImage *)image cropRatio:(CGFloat)ratio;
+
+@end
+
+@protocol BayImageCropViewControllerDelegate <NSObject>
+
+- (void)imageCropViewController:(nonnull BayImageCropViewController *)cropViewController didCropImage:(nullable UIImage *)image;
 
 @end

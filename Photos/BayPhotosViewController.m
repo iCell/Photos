@@ -7,18 +7,15 @@
 //
 
 #import "BayPhotosViewController.h"
-#import "BayImageCropViewController.h"
 
 #import "BayPhotosFetchHelper.h"
 
-#import "BayPhotosReusableView.h"
 #import "BayPhotosCell.h"
 
 @import Photos;
 
 static NSString * const kCameraCellIdentifier = @"kCameraCellIdentifier";
 static NSString * const kPhotosCellIdentifier = @"kPhotosCellIdentifier";
-static NSString * const kPhotosResuableIdentifier = @"kPhotosResuableIdentifier";
 
 CGFloat const kCellInset = 8;
 
@@ -107,8 +104,9 @@ CGFloat const kCellInset = 8;
         CGSize targetSize = CGSizeMake(scale * CGRectGetWidth([UIScreen mainScreen].bounds), scale * CGRectGetHeight([UIScreen mainScreen].bounds));
         [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                BayImageCropViewController *cropViewController = [[BayImageCropViewController alloc] initWithImage:result];
-                [self.navigationController pushViewController:cropViewController animated:YES];
+                if ([self.delegate respondsToSelector:@selector(photosViewController:didSelectImage:)]) {
+                    [self.delegate photosViewController:self didSelectImage:result];
+                }
             });
         }];
     }
@@ -152,7 +150,6 @@ CGFloat const kCellInset = 8;
         [_collectionView setBackgroundColor:self.view.backgroundColor];
         [_collectionView registerClass:[BayCameraCell class] forCellWithReuseIdentifier:kCameraCellIdentifier];
         [_collectionView registerClass:[BayPhotosCell class] forCellWithReuseIdentifier:kPhotosCellIdentifier];
-        [_collectionView registerClass:[BayPhotosReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kPhotosResuableIdentifier];
         [_collectionView setDataSource:self];
         [_collectionView setDelegate:self];
     }

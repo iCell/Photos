@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BayPhotosViewControllerDelegate;
+
 @interface BayPhotosViewController : UIViewController
+
+@property (weak, nonatomic, nullable) id<BayPhotosViewControllerDelegate> delegate;
+
+@end
+
+@protocol BayPhotosViewControllerDelegate <NSObject>
+
+@optional
+- (void)photosViewController:(nonnull BayPhotosViewController *)photosVC didSelectImage:(nullable UIImage *)image;
 
 @end
