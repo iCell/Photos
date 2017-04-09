@@ -36,7 +36,7 @@ CGFloat const kPhotosCellBorderWidth = 1;
         [_imageView setClipsToBounds:YES];
         [_imageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
         [_imageView.layer setBorderWidth:kPhotosCellBorderWidth];
-        [_imageView setImage:[UIImage imageNamed:@"icon_camera"]];
+        [_imageView setImage:[UIImage imageNamed:@"icon_camera" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
     }
     return _imageView;
 }

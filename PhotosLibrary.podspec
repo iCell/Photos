@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'PhotosLibrary/Classes/**/*'
-  s.resources = 'PhotosLibrary/Assets.xcassets/*'
+  s.resources = 'PhotosLibrary/Resource/*'
 
   # s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lObjC' }
   s.frameworks = 'UIKit', 'Photos'

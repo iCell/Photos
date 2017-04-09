@@ -12,7 +12,7 @@
 
 #import "BayImageCropViewController.h"
 #import "BayPhotosCell.h"
-#import "BayPhotosFetchHelper.h"
+#import "BayPhotoService.h"
 #import "BayPhotosViewController.h"
 #import "UIImage+BayImageRotate.h"
 

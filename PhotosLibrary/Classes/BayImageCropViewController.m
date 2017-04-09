@@ -196,7 +196,7 @@ CGFloat const kImageMaxScale = 3.0;
 }
 
 - (void)backAction {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)rotateAction {
@@ -207,9 +207,11 @@ CGFloat const kImageMaxScale = 3.0;
 
 - (void)cropAction {
     UIImage *croppedImage = [self croppedImage];
-    if ([self.delegate respondsToSelector:@selector(imageCropViewController:didCropImage:)]) {
-        [self.delegate imageCropViewController:self didCropImage:croppedImage];
-    }
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        if ([self.delegate respondsToSelector:@selector(imageCropViewController:didCropImage:)]) {
+            [self.delegate imageCropViewController:self didCropImage:croppedImage];
+        }
+    }];
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {

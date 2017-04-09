@@ -19,7 +19,7 @@
     "ios": "8.0"
   },
   "source_files": "PhotosLibrary/Classes/**/*",
-  "resources": "PhotosLibrary/Assets.xcassets/*",
+  "resources": "PhotosLibrary/Resource/*",
   "frameworks": [
     "UIKit",
     "Photos"

@@ -8,8 +8,6 @@
 
 #import "BayPhotosViewController.h"
 
-#import "BayPhotosFetchHelper.h"
-
 #import "BayPhotosCell.h"
 
 @import Photos;
@@ -19,11 +17,9 @@ static NSString * const kPhotosCellIdentifier = @"kPhotosCellIdentifier";
 
 CGFloat const kCellInset = 8;
 
-@interface BayPhotosViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BayPhotosFetcherHelperDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface BayPhotosViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PHPhotoLibraryChangeObserver>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) BayPhotosFetchHelper *fetchHelper;
-
 @property (strong, nonatomic) PHFetchResult<PHAsset *> *fetchResult;
 
 @end
@@ -31,20 +27,50 @@ CGFloat const kCellInset = 8;
 @implementation BayPhotosViewController
 
 - (void)dealloc {
-    [self.fetchHelper unregisterCollectionsChange];
+    [self unregisterCollectionsChange];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self configureSubviews];
-    [self.fetchHelper registerCollectionsChange];
+    [self registerCollectionsChange];
 }
 
 - (void)configureSubviews {
+    UIBarButtonItem *closeButtom = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissAction)];
+    self.navigationItem.leftBarButtonItem = closeButtom;
+    
     [self.view addSubview:self.collectionView];
     [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView": self.collectionView}]];
     [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView": self.collectionView}]];
+}
+
+- (void)dismissAction {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - fetch photos
+- (void)registerCollectionsChange {
+    PHFetchOptions *fetchOption = [[PHFetchOptions alloc] init];
+    [fetchOption setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO]]];
+    self.fetchResult = [PHAsset fetchAssetsWithOptions:fetchOption];
+    [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+}
+
+- (void)unregisterCollectionsChange {
+    [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
+}
+
+#pragma mark - PHPhotoLibraryChangeObserver
+- (void)photoLibraryDidChange:(PHChange *)changeInstance {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        PHFetchResultChangeDetails *allPhotosChangeDetails = [changeInstance changeDetailsForFetchResult:self.fetchResult];
+        if (allPhotosChangeDetails) {
+            self.fetchResult = [allPhotosChangeDetails fetchResultAfterChanges];
+            [self.collectionView reloadData];
+        }
+    });
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -135,12 +161,6 @@ CGFloat const kCellInset = 8;
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - BayPhotosFetcherHelperDelegate
-- (void)didFetchAllPhotos:(PHFetchResult<PHAsset *> *)allPhotos {
-    self.fetchResult = allPhotos;
-    [self.collectionView reloadData];
-}
-
 #pragma mark - getter
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
@@ -154,14 +174,6 @@ CGFloat const kCellInset = 8;
         [_collectionView setDelegate:self];
     }
     return _collectionView;
-}
-
-- (BayPhotosFetchHelper *)fetchHelper {
-    if (!_fetchHelper) {
-        _fetchHelper = [[BayPhotosFetchHelper alloc] init];
-        [_fetchHelper setDelegate:self];
-    }
-    return _fetchHelper;
 }
 
 @end

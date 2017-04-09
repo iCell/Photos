@@ -6,14 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Bay Photos View Controller-->
+        <!--Bay View Controller-->
         <scene sceneID="wQg-tq-qST">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="whP-gf-Uak" customClass="BayPhotosViewController" sceneMemberID="viewController">
+                <viewController id="whP-gf-Uak" customClass="BayViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uEw-UM-LJ8"/>
                         <viewControllerLayoutGuide type="bottom" id="Mvr-aV-6Um"/>
@@ -21,10 +21,42 @@
                     <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CxM-kr-ffb">
+                                <rect key="frame" x="142.5" y="185" width="89" height="30"/>
+                                <state key="normal" title="Select Image"/>
+                                <connections>
+                                    <action selector="selectImage:" destination="whP-gf-Uak" eventType="touchUpInside" id="3YJ-Gy-ccg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jpi-Wo-asa">
+                                <rect key="frame" x="138.5" y="318.5" width="97" height="30"/>
+                                <state key="normal" title="Select images"/>
+                                <connections>
+                                    <action selector="selectImages:" destination="whP-gf-Uak" eventType="touchUpInside" id="Re0-HZ-3XA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D1g-Ty-y6T">
+                                <rect key="frame" x="147" y="452" width="80" height="30"/>
+                                <state key="normal" title="Crop Image"/>
+                                <connections>
+                                    <action selector="cropImage:" destination="whP-gf-Uak" eventType="touchUpInside" id="hUg-9B-TeD"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Jpi-Wo-asa" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="T1f-OH-LNV"/>
+                            <constraint firstItem="Jpi-Wo-asa" firstAttribute="centerY" secondItem="TpU-gO-2f1" secondAttribute="centerY" id="TeT-v9-um4"/>
+                            <constraint firstItem="D1g-Ty-y6T" firstAttribute="centerY" secondItem="TpU-gO-2f1" secondAttribute="centerY" multiplier="1.4" id="lFE-vh-r8a"/>
+                            <constraint firstItem="CxM-kr-ffb" firstAttribute="centerY" secondItem="TpU-gO-2f1" secondAttribute="centerY" multiplier="0.6" id="oEk-Hk-aWB"/>
+                            <constraint firstItem="D1g-Ty-y6T" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="oSz-aO-auL"/>
+                            <constraint firstItem="CxM-kr-ffb" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="vEB-vt-F5c"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7sR-rW-Lhw"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="454" y="421"/>
         </scene>
