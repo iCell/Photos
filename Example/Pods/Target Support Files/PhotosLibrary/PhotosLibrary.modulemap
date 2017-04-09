@@ -1,0 +1,6 @@
+framework module PhotosLibrary {
+  umbrella header "PhotosLibrary-umbrella.h"
+
+  export *
+  module * { export * }
+}

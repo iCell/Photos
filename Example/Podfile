@@ -1,5 +1,11 @@
 use_frameworks!
 
-target 'Photos_Example' do
-  pod 'Photos', :path => '../'
+target 'PhotosLibrary_Example' do
+  pod 'PhotosLibrary', :path => '../'
+
+  target 'PhotosLibrary_Tests' do
+    inherit! :search_paths
+
+    
+  end
 end

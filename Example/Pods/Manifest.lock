@@ -1,16 +1,16 @@
 PODS:
-  - Photos (0.1.0)
+  - PhotosLibrary (0.1.0)
 
 DEPENDENCIES:
-  - Photos (from `../`)
+  - PhotosLibrary (from `../`)
 
 EXTERNAL SOURCES:
-  Photos:
+  PhotosLibrary:
     :path: ../
 
 SPEC CHECKSUMS:
-  Photos: d77da5e32bdf5a9d2ea7c6bbb8e4f5d42829ff59
+  PhotosLibrary: fd6ee31a4058bae755c43f1f0edc23090d3faa4f
 
-PODFILE CHECKSUM: dd0cec0688417114191523241eb444c9937d63d7
+PODFILE CHECKSUM: d763bf7c6eaff2a3d3588f015771b52cb604aca6
 
 COCOAPODS: 1.2.0
