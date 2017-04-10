@@ -31,7 +31,9 @@
 }
 
 - (IBAction)selectImages:(id)sender {
-
+    [self.photoService selectMultiplePhotosInViewController:self.navigationController completion:^(NSArray<UIImage *> * _Nullable images) {
+        
+    }];
 }
 
 - (IBAction)cropImage:(UIButton *)sender {

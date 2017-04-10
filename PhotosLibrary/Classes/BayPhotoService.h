@@ -12,5 +12,6 @@
 
 - (void)selectSinglePhotoInViewController:(nonnull UIViewController *)viewController completion:(nullable void (^)(UIImage * _Nullable image))completion;
 - (void)selectSinglePhotoInViewController:(nonnull UIViewController *)viewController needCropWithCropRatio:(CGFloat)cropRatio completion:(nullable void (^)(UIImage * _Nullable image))completion;
+- (void)selectMultiplePhotosInViewController:(nonnull UIViewController *)viewController completion:(nullable void (^)(NSArray<UIImage *> * _Nullable images))completion;
 
 @end

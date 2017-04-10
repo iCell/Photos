@@ -21,13 +21,25 @@ CGFloat const kCellInset = 8;
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) PHFetchResult<PHAsset *> *fetchResult;
+@property (strong, nonatomic) NSMutableDictionary<NSIndexPath *, UIImage *> *images;
 
 @end
 
 @implementation BayPhotosViewController
 
 - (void)dealloc {
+    NSLog(@"BayPhotosViewController dealloc");
     [self unregisterCollectionsChange];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _maxSelect = 3;
+        _supportMultiple = NO;
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -38,8 +50,15 @@ CGFloat const kCellInset = 8;
 }
 
 - (void)configureSubviews {
-    UIBarButtonItem *closeButtom = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissAction)];
-    self.navigationItem.leftBarButtonItem = closeButtom;
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissAction)];
+    self.navigationItem.leftBarButtonItem = closeButton;
+    
+    if (self.supportMultiple) {
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
+        self.navigationItem.rightBarButtonItem = rightButton;
+    }
     
     [self.view addSubview:self.collectionView];
     [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[collectionView]|" options:0 metrics:nil views:@{@"collectionView": self.collectionView}]];
@@ -48,6 +67,12 @@ CGFloat const kCellInset = 8;
 
 - (void)dismissAction {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)doneAction {
+    if ([self.delegate respondsToSelector:@selector(photosViewController:didSelectImages:)]) {
+        [self.delegate photosViewController:self didSelectImages:[self.images allValues]];
+    }
 }
 
 #pragma mark - fetch photos
@@ -89,6 +114,9 @@ CGFloat const kCellInset = 8;
     }
 
     BayPhotosCell *photosCell = [collectionView dequeueReusableCellWithReuseIdentifier:kPhotosCellIdentifier forIndexPath:indexPath];
+    if (self.supportMultiple) {
+        [photosCell setSelected:NO];
+    }
     if (indexPath.row != 0) {
         PHAsset *asset = self.fetchResult[indexPath.row - 1];
         CGFloat scale = [[UIScreen mainScreen] scale];
@@ -122,6 +150,7 @@ CGFloat const kCellInset = 8;
     if (indexPath.row == 0) {
         [self openCamera];
     } else {
+        
         PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
         [option setDeliveryMode:PHImageRequestOptionsDeliveryModeHighQualityFormat];
         [option setNetworkAccessAllowed:YES];
@@ -129,13 +158,24 @@ CGFloat const kCellInset = 8;
         CGFloat scale = [UIScreen mainScreen].scale;
         CGSize targetSize = CGSizeMake(scale * CGRectGetWidth([UIScreen mainScreen].bounds), scale * CGRectGetHeight([UIScreen mainScreen].bounds));
         [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ([self.delegate respondsToSelector:@selector(photosViewController:didSelectImage:)]) {
-                    [self.delegate photosViewController:self didSelectImage:result];
+            if (self.supportMultiple) {
+                if (self.images.allValues.count == self.maxSelect) {
+                    return;
                 }
-            });
+                [self.images setObject:result forKey:indexPath];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([self.delegate respondsToSelector:@selector(photosViewController:didSelectImage:)]) {
+                        [self.delegate photosViewController:self didSelectImage:result];
+                    }
+                });
+            }
         }];
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.images removeObjectForKey:indexPath];
 }
 
 #pragma mark - camera / UIImagePickerControllerDelegate
@@ -154,7 +194,13 @@ CGFloat const kCellInset = 8;
     if (photo) {
         UIImageWriteToSavedPhotosAlbum(photo, nil, nil, nil);
     }
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        if (self.supportMultiple == NO) {
+            if ([self.delegate respondsToSelector:@selector(photosViewController:didSelectImage:)]) {
+                [self.delegate photosViewController:self didSelectImage:photo];
+            }
+        }
+    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -172,8 +218,16 @@ CGFloat const kCellInset = 8;
         [_collectionView registerClass:[BayPhotosCell class] forCellWithReuseIdentifier:kPhotosCellIdentifier];
         [_collectionView setDataSource:self];
         [_collectionView setDelegate:self];
+        [_collectionView setAllowsMultipleSelection:self.supportMultiple];
     }
     return _collectionView;
+}
+
+- (NSMutableDictionary<NSIndexPath *,UIImage *> *)images {
+    if (!_images) {
+        _images = [[NSMutableDictionary alloc] init];
+    }
+    return _images;
 }
 
 @end

@@ -13,6 +13,8 @@
 @interface BayPhotosViewController : UIViewController
 
 @property (weak, nonatomic, nullable) id<BayPhotosViewControllerDelegate> delegate;
+@property (assign, nonatomic) BOOL supportMultiple;
+@property (assign, nonatomic) NSInteger maxSelect;
 
 @end
 
@@ -20,5 +22,6 @@
 
 @optional
 - (void)photosViewController:(nonnull BayPhotosViewController *)photosVC didSelectImage:(nullable UIImage *)image;
+- (void)photosViewController:(nonnull BayPhotosViewController *)photosVC didSelectImages:(nonnull NSArray<UIImage *> *)image;
 
 @end
