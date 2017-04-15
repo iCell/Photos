@@ -8,11 +8,10 @@
 
 #import "BayViewController.h"
 
-#import <PhotosLibrary/BayPhotoService.h>
+#import <PhotosLibrary/BayPhotosViewController.h>
+#import <PhotosLibrary/BayImageCropViewController.h>
 
-@interface BayViewController ()
-
-@property (strong, nonatomic) BayPhotoService *photoService;
+@interface BayViewController () <BayPhotosViewControllerDelegate, BayImageCropViewControllerDelegate>
 
 @end
 
@@ -25,19 +24,17 @@
 }
 
 - (IBAction)selectImage:(UIButton *)sender {
-    [self.photoService selectSinglePhotoInViewController:self.navigationController completion:^(UIImage * _Nullable image) {
-        
-    }];
+    BayPhotosViewController *photosViewController = [[BayPhotosViewController alloc] init];
+    [photosViewController setDelegate:self];
+    [self.navigationController pushViewController:photosViewController animated:YES];
 }
 
 - (IBAction)selectImages:(id)sender {
-
-}
-
-- (IBAction)cropImage:(UIButton *)sender {
-    [self.photoService selectSinglePhotoInViewController:self.navigationController needCropWithCropRatio:1.0 completion:^(UIImage * _Nullable image) {
-        
-    }];
+    BayPhotosViewController *photosViewController = [[BayPhotosViewController alloc] init];
+    [photosViewController setDelegate:self];
+    [photosViewController setSupportMultiple:YES];
+    [photosViewController setMaxSelect:4];
+    [self.navigationController pushViewController:photosViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,11 +43,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BayPhotoService *)photoService {
-    if (!_photoService) {
-        _photoService = [[BayPhotoService alloc] init];
-    }
-    return _photoService;
+#pragma mark - BayPhotosViewControllerDelegate
+- (void)photosViewController:(BayPhotosViewController *)photosVC didSelectImage:(UIImage *)image {
+    [self.navigationController popViewControllerAnimated:YES];
+    BayImageCropViewController *cropViewController = [[BayImageCropViewController alloc] initWithImage:image cropRatio:1];
+    [cropViewController setDelegate:self];
+    [self.navigationController pushViewController:cropViewController animated:YES];
+}
+
+- (void)photosViewController:(BayPhotosViewController *)photosVC didSelectImages:(NSArray<UIImage *> *)images {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cancelSelectImageInPhotosViewController:(BayPhotosViewController *)photosVC {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - BayImageCropViewControllerDelegate
+- (void)cancelCropImageInViewController:(BayImageCropViewController *)cropViewController {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)imageCropViewController:(BayImageCropViewController *)cropViewController didCropImage:(UIImage *)image {
+    
 }
 
 @end

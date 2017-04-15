@@ -77,13 +77,13 @@ CGFloat const kPhotosCellBorderWidth = 1;
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     if (selected) {
-//        [self.indicator setImage:[UIImage imageNamed:__LEGACY_CommonsI(@"icon_image_selected")]];
-//        self.maskView.backgroundColor = [UIColor blackColor];
-//        self.maskView.alpha = 0.3;
+        [self.indicator setImage:[UIImage imageNamed:(@"icon_image_selected") inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
+        self.maskView.backgroundColor = [UIColor blackColor];
+        self.maskView.alpha = 0.3;
     } else {
-//        [self.indicator setImage:[UIImage imageNamed:__LEGACY_CommonsI(@"icon_image_deselected")]];
-//        self.maskView.backgroundColor = [UIColor clearColor];
-//        self.maskView.alpha = 1;
+        [self.indicator setImage:[UIImage imageNamed:(@"icon_image_deselected") inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
+        self.maskView.backgroundColor = [UIColor clearColor];
+        self.maskView.alpha = 1;
     }
 }
 

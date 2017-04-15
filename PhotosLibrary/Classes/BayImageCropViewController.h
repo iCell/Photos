@@ -23,6 +23,7 @@
 
 @protocol BayImageCropViewControllerDelegate <NSObject>
 
+- (void)cancelCropImageInViewController:(nonnull BayImageCropViewController *)cropViewController;
 - (void)imageCropViewController:(nonnull BayImageCropViewController *)cropViewController didCropImage:(nullable UIImage *)image;
 
 @end

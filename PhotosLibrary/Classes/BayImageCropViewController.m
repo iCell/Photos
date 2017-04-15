@@ -81,6 +81,10 @@ CGFloat const kImageMaxScale = 3.0;
 
 @implementation BayImageCropViewController
 
+- (void)dealloc {
+    NSLog(@"BayImageCropViewController dealloc");
+}
+
 - (instancetype)initWithImage:(UIImage *)image cropRatio:(CGFloat)ratio {
     self = [super init];
     if (self) {
@@ -196,7 +200,9 @@ CGFloat const kImageMaxScale = 3.0;
 }
 
 - (void)backAction {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    if ([self.delegate respondsToSelector:@selector(cancelCropImageInViewController:)]) {
+        [self.delegate cancelCropImageInViewController:self];
+    }
 }
 
 - (void)rotateAction {
@@ -207,11 +213,9 @@ CGFloat const kImageMaxScale = 3.0;
 
 - (void)cropAction {
     UIImage *croppedImage = [self croppedImage];
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(imageCropViewController:didCropImage:)]) {
-            [self.delegate imageCropViewController:self didCropImage:croppedImage];
-        }
-    }];
+    if ([self.delegate respondsToSelector:@selector(imageCropViewController:didCropImage:)]) {
+        [self.delegate imageCropViewController:self didCropImage:croppedImage];
+    }
 }
 
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture {
